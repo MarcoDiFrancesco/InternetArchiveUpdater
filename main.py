@@ -11,5 +11,5 @@ opts.add_argument("--disable-dev-shm-usage")
 opts.add_argument("--no-sandbox")
 driver = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, chrome_options=opts)
 
-# Now you can start using Selenium
-print(driver)
+driver.get("https://www.google.com")
+print(driver.page_source)
