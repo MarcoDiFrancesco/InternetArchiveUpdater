@@ -15,7 +15,14 @@ opts.binary_location = GOOGLE_CHROME_BIN
 opts.add_argument("--headless")
 opts.add_argument("--disable-dev-shm-usage")
 opts.add_argument("--no-sandbox")
-driver = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, chrome_options=opts)
+driver = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, options=opts)
 
-driver.get("http://icanhazip.com/")
-print(driver.page_source)
+# Save page URL
+driver.get("http://web.archive.org/save")
+# Input text for new URL
+text_area = driver.find_element_by_id("web-save-url-input")
+text_area.send_keys("https://marcodifrancesco.com/ProgettoSistemiOperativi/")
+# Save page button
+save_button = driver.find_elements_by_class_name("web-save-button")
+# Click save button
+save_button[0].click()
