@@ -3,30 +3,41 @@ import socket
 import os
 
 
-def main():
-    if socket.gethostname() == "bump":
-        CHROMEDRIVER_PATH = "/home/marco/Downloads/chromedriver"
-        GOOGLE_CHROME_BIN = "/usr/bin/google-chrome-stable"
-    else:
-        CHROMEDRIVER_PATH = os.environ.get("CHROMEDRIVER_PATH")
-        GOOGLE_CHROME_BIN = os.environ.get("GOOGLE_CHROME_BIN")
+def read_file(file_name):
+    with open(file_name, "r") as file:
+        links = file.readlines()
+    # Remove new lines with rstrip()
+    return [link.rstrip() for link in links]
 
+
+def main():
     opts = webdriver.ChromeOptions()
-    opts.binary_location = GOOGLE_CHROME_BIN
-    opts.add_argument("--headless")
+
+    # Set hostname for local debugging
+    if socket.gethostname() == "bump":
+        CHROME_DRIVER_PATH = "chromedriver"
+        opts.binary_location = "/usr/bin/chromium"
+    else:
+        CHROME_DRIVER_PATH = os.environ.get("CHROME_DRIVER_PATH")
+        opts.binary_location = os.environ.get("CHROME_PATH")
+        opts.add_argument("--headless")
+
     opts.add_argument("--disable-dev-shm-usage")
     opts.add_argument("--no-sandbox")
-    driver = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, options=opts)
+    driver = webdriver.Chrome(executable_path=CHROME_DRIVER_PATH, options=opts)
 
-    # Save page URL
-    driver.get("http://web.archive.org/save")
-    print("Web page opened")
-    # Input text for new URL
-    text_area = driver.find_element_by_id("web-save-url-input")
-    text_area.send_keys("https://marcodifrancesco.com/")
-    # Save page button
-    save_button = driver.find_elements_by_class_name("web-save-button")
-    # Click save button
-    save_button[0].click()
-    print("Save page button clicked")
+    # Read URLs from file
+    links = read_file("links.txt")
+
+    for link in links:
+        # Save page URL
+        driver.get(f"http://web.archive.org/save/{link}")
+        print(f"Page requested: {link}")
+
+    # Close connection
     driver.close()
+
+
+if __name__ == "__main__":
+    # Used for testing
+    main()

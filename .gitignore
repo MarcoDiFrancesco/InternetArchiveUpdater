@@ -1,1 +1,5 @@
+# Python cache
 __pycache__/
+
+# Chrome drivers
+chromedriver*
