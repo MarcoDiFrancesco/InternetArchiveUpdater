@@ -3,14 +3,7 @@ import socket
 import os
 
 
-def read_file(file_name):
-    with open(file_name, "r") as file:
-        links = file.readlines()
-    # Remove new lines with rstrip()
-    return [link.rstrip() for link in links]
-
-
-def main():
+def init_driver():
     opts = webdriver.ChromeOptions()
 
     # Set hostname for local debugging
@@ -25,6 +18,18 @@ def main():
     opts.add_argument("--disable-dev-shm-usage")
     opts.add_argument("--no-sandbox")
     driver = webdriver.Chrome(executable_path=CHROME_DRIVER_PATH, options=opts)
+    return driver
+
+
+def read_file(file_name):
+    with open(file_name, "r") as file:
+        links = file.readlines()
+    # Remove new lines with rstrip()
+    return [link.rstrip() for link in links]
+
+
+def main():
+    driver = init_driver()
 
     # Read URLs from file
     links = read_file("links.txt")
