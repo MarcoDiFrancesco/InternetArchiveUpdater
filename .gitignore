@@ -3,3 +3,10 @@ __pycache__/
 
 # Chrome drivers
 chromedriver*
+
+# Enviroment variables
+.envvars
+
+tmp-downloads/
+chromedriver
+export.txt

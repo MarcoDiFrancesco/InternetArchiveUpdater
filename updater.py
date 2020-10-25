@@ -6,18 +6,21 @@ import os
 def init_driver():
     opts = webdriver.ChromeOptions()
 
-    # Set hostname for local debugging
-    if socket.gethostname() == "bump":
-        CHROME_DRIVER_PATH = "chromedriver"
-        opts.binary_location = "/usr/bin/chromium"
-    else:
-        CHROME_DRIVER_PATH = os.environ.get("CHROME_DRIVER_PATH")
-        opts.binary_location = os.environ.get("CHROME_PATH")
-        opts.add_argument("--headless")
+    chrome_driver_path = os.environ.get("CHROME_DRIVER_PATH")
+    chrome_path = os.environ.get("CHROME_PATH")
+    debug = os.environ.get("DEBUG")
 
+    # Check if variables are sourced
+    if not chrome_driver_path or not chrome_path:
+        raise ValueError("Source variables before running program")
+
+    opts.binary_location = chrome_path
+    # Show window if dubug is on
+    if not debug:
+        opts.add_argument("--headless")
     opts.add_argument("--disable-dev-shm-usage")
     opts.add_argument("--no-sandbox")
-    driver = webdriver.Chrome(executable_path=CHROME_DRIVER_PATH, options=opts)
+    driver = webdriver.Chrome(executable_path=chrome_driver_path, options=opts)
     return driver
 
 

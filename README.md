@@ -40,3 +40,37 @@ Once the application is deployed in your `Heroku Dashboard` -> `Resources` you s
 ![https://i.imgur.com/AhI1wUO.png](https://i.imgur.com/AhI1wUO.png)
 
 **Now your pages are being saved!**
+
+# Internet Archive Website Uploader
+
+Save your entire webisite in Internet Archive with only the domanin link given.
+
+For example given the link in [scraper.py](/scraper.py):
+
+```Plaintext
+https://github.com/MarcoDiFrancesco
+```
+
+the program will follow all links inside the page to save pages like:
+
+![https://i.imgur.com/s4aswN1.png](https://i.imgur.com/s4aswN1.png)
+
+```Plaintext
+https://github.com/MarcoDiFrancesco/DoexercisesTools
+https://github.com/MarcoDiFrancesco/HomeAutomation
+...
+```
+
+and will follow all links inside those pages:
+
+```Plaintext
+https://github.com/MarcoDiFrancesco/DoexercisesTools/blob/master/README.md
+https://github.com/MarcoDiFrancesco/DoexercisesTools/blob/master/getMarks.py
+...
+```
+
+and so on!
+
+## Limitations
+
+Currently in web.archive.org it's possible to upload 20093 pages per day. The program can anyway stay up for months without ever stopping.
